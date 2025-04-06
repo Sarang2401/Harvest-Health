@@ -3,8 +3,10 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
 import matplotlib.pyplot as plt
 import numpy as np
+
+
 # Define dataset directory
-dataset_dir = "C:/Users/Lenovo/potato-disease/training/PlantVillage"
+dataset_dir = "" #Add Your path
 IMAGE_SIZE = 256
 BATCH_SIZE = 32
 CHANNELS = 3
@@ -15,15 +17,21 @@ dataset = tf.keras.preprocessing.image_dataset_from_directory(
  image_size = (IMAGE_SIZE,IMAGE_SIZE),
  batch_size = BATCH_SIZE
 )
+
+
 # Create directories for train, validation, and test sets
 train_dir = os.path.join(dataset_dir, "train")
 validation_dir = os.path.join(dataset_dir, "validation")
 test_dir = os.path.join(dataset_dir, "test")
+
+
 # Define image size
 img_size = (256, 256)
 BATCH_SIZE = 32
 CHANNELS = 3
 EPOCHS = 50
+
+
 # Create data generators with data augmentation
 train_datagen = ImageDataGenerator(
  rescale=1./255,
@@ -49,10 +57,15 @@ shuffle=True,shuffle_size=10000):
  test_ds=ds.skip(train_size).skip(val_size)
 
  return train_ds, val_ds, test_ds
+
+
+
 train_ds, val_ds, test_ds = get_dataset_partitions_tf(dataset)
 train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=tf.data.AUTOTUNE)
 val_ds = val_ds.cache().shuffle(1000).prefetch(buffer_size=tf.data.AUTOTUNE)
 test_ds= test_ds.cache().shuffle(1000).prefetch(buffer_size=tf.data.AUTOTUNE)
+
+
 from tensorflow.keras import layers
 n_classes = 3
 model = tf.keras.Sequential([
@@ -73,7 +86,10 @@ spatial dimensions
  layers.Dropout(0.3),
  layers.Dense(n_classes, activation='softmax'), # Output layer for multi-class classification
 ])
+
+
 model.summary()
+
 model.compile(
  optimizer='adam',
  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
@@ -86,6 +102,8 @@ history = model.fit(
  verbose=1,
  epochs=50,
 )
+
+
 scores = model.evaluate(test_ds)
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
@@ -103,6 +121,8 @@ plt.plot(range(EPOCHS), val_loss, label='Validation Loss')
 plt.legend(loc='upper right')
 plt.title('Training and Validation Loss')
 plt.show()
+
+
 import numpy as np
 class_names = dataset.class_names
 class_names
@@ -117,6 +137,8 @@ for images_batch, labels_batch in test_ds.take(1):
 
  batch_prediction = model.predict(images_batch)
  print("predicted label:",class_names[np.argmax(batch_prediction[0])])
+ 
+ 
 def predict(model, img):
  img_array = tf.keras.preprocessing.image.img_to_array(images[i].numpy())
  img_array = tf.expand_dims(img_array, 0)
@@ -136,3 +158,5 @@ for images, labels in test_ds.take(1):
  plt.title(f"Actual: {actual_class},\n Predicted: {predicted_class}.\n Confidence: {confidence}%")
 
  plt.axis("off")
+ 
+ model.save("model/plant_model.h5")
