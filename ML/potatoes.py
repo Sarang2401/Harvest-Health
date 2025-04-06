@@ -158,3 +158,5 @@ for images, labels in test_ds.take(1):
  plt.title(f"Actual: {actual_class},\n Predicted: {predicted_class}.\n Confidence: {confidence}%")
 
  plt.axis("off")
+ 
+ model.save("model/plant_model.h5")
