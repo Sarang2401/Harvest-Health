@@ -66,10 +66,6 @@ Traditional farming methods rely on manual crop checks, which are time-consuming
 
 ## 📊 Live Sensor Monitoring (ThingSpeak)
 
-📷 **Sample ThingSpeak Chart**  
-*(Replace with your channel image or chart snapshot)*  
-![ThinkSpeak Sample](https://i.imgur.com/Nj1tX2W.png)
-
 ---
 
 ## 🧠 ML Model - Potato Disease Classification
@@ -79,9 +75,7 @@ Traditional farming methods rely on manual crop checks, which are time-consuming
 📈 Accuracy: **98%**  
 🧠 Model: CNN with Conv2D, MaxPooling, Dropout layers
 
-📷 **Training Accuracy/Loss Plot**  
-*(Replace with your own plot if available)*  
-![ML Plot](https://i.imgur.com/8bFORgU.png)
+📷 **Training Accuracy/Loss Plot** 
 
 ---
 
